@@ -1,12 +1,12 @@
 Workshop Changelog
 ========
 
-5.0.0 Beta (June 14, 2019)
+5.0.0 Beta (June 20, 2019)
 --------
 
-* new 'visible-tablet' utility style
-* SideNav Component with JavaScript snippets
-* Documentation revives Alpha hover dropdowns
+* New SideNav Component with JavaScript snippets
+* New 'visible-tablet' utility style
+* Experimental revival of the Alpha hover dropdowns
 
 **Possibly Breaking Changes:**
 
