@@ -1,0 +1,78 @@
+site_name: "Softheon Workshop UI"
+use_directory_urls: true
+pages:
+  - Introduction: index.md
+  - Get Started: getstarted/getstarted.md
+  - Colors: theming/color.md
+  - Typography: resources/typography.md
+  - Theming: theming/theming.md
+  - Components:
+      - Alerts: components/alerts.md
+      - Buttons: components/buttons.md
+      - Button Groups: components/buttongroups.md
+      - Button Icons: components/iconbuttons.md
+      - Cards: components/cards.md
+      - Checkbox Cards: components/checkboxcard.md
+      - Checkboxes: components/checkboxes.md
+      - Dropdowns: components/dropdown.md
+      - Header: components/navbarh.md
+      - Inputs: components/inputs.md
+      - Labels: components/labels.md
+      - Links: components/links.md
+      - Radio Buttons: components/radiobuttons.md
+      - Parallax: components/parallax.md
+      - SideNav: components/sidenav.md
+      - Spinners: components/spinners.md
+      - Tables: components/tables.md
+      - Thematic Breaks: components/break.md
+      - Toggle Switch: components/toggleswitch.md
+      - Tooltips: components/tooltips.md
+  - Resources:
+      - Utility Styles: resources/utility.md
+      - Flexbox Layout Styles: resources/flexbox.md
+      - Margin and Padding: resources/marginpadding.md
+      - Text Transformation: resources/text.md
+  - Changelog: topics/changelog.md
+
+
+theme:
+  name: "material"
+  palette:
+    primary: "light blue"
+    accent: "light blue"
+  logo: img/logo.png
+  custom_dir: "theme"
+  favicon: img/favicon.ico
+
+copyright: "&copy; 2018 Softheon, Inc. All Rights Reserved"
+
+extra_css:
+  - css/overrides.css
+  - css/workshop.blue.min.css
+extra_javascript:
+  - js/appinsights.js
+  - js/all.min.js
+  - js/changeTheme.js
+extra:
+  social:
+    - type: "github"
+      link: "https://github.com/Softheon"
+    - type: "facebook"
+      link: "https://www.facebook.com/Softheon?ref=br_tf"
+    - type: "twitter"
+      link: "https://twitter.com/softheon"
+    - type: "linkedin"
+      link: "http://www.linkedin.com/company/softheon"
+    - type: "youtube"
+      link: "http://www.youtube.com/user/Softheon"
+    - type: "pinterest"
+      link: "http://www.pinterest.com/softheon/"
+    - type: "instagram"
+      link: "http://instagram.com/softheoninc"
+
+markdown_extensions:
+  - admonition
+  - codehilite:
+      linenums: True
+      guess_lang: False
+  - pymdownx.superfences
