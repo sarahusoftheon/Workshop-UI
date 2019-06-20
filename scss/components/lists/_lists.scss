@@ -1,0 +1,10 @@
+// similar to MD mat-list-item
+sws-list-block, sws-panel {
+    height: 48px;
+    display: flex;
+    align-items: center;
+    
+    & svg {
+      margin: 0 8px;
+    }
+  }

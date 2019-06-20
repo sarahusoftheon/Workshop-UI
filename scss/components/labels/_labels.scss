@@ -1,0 +1,26 @@
+.sws-label {
+    display: inline-block;
+    padding: 0.2em 0.6em 0.3em;
+    margin: 2px;
+    font-size: 75%;
+    letter-spacing: 1px;
+    font-weight: bold;
+    line-height: 1;
+    color: $color-white;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: baseline;
+    border-radius: 2px;
+}
+
+/* LABELS */
+
+// Iterates through color palette and exports each label
+// ie. sws-label--primary , sws-label--success
+@for $i from 1 through length($products) {
+    // iterates over bold alert styles 
+    [sws-label--#{nth($products, $i)}] {
+        @extend .sws-label;
+        background: darken(nth($product_colors, $i), 5%);
+    }
+}

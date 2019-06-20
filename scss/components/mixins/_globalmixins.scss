@@ -1,0 +1,101 @@
+// Global Mixins 
+//// Mixin to prefix a property
+//// from : https://css-tricks.com/snippets/sass/mixin-prefix-properties/
+/// @author Hugo Giraudel
+/// @param {String} $property - Property name
+/// @param {*} $value - Property value
+/// @param {List} $prefixes (()) - List of prefixes to print
+/// ---------
+/// EXAMPLE:
+/// USAGE:
+/// .selector {
+///     @include prefix(transform, rotate(45deg), webkit ms);
+/// }
+/// OUTPUT:
+/// .selector {
+///     -webkit-transform: rotate(45deg);
+///     -ms-transform: rotate(45deg);
+///     transform: rotate(45deg);
+/// }
+@mixin prefix($property, $value, $prefixes: ()) {
+    @each $prefix in $prefixes {
+        #{'-' + $prefix + '-' + $property}: $value;
+    } // Output standard non-prefixed declaration
+    #{$property}: $value;
+}
+
+/// Slightly lighten a color
+/// @access public
+/// @param {Color} $color - color to tint
+/// @param {Number} $percentage - percentage of `$color` in returned color
+/// @return {Color}
+@function tint($color, $percentage) {
+    @return mix(white, $color, $percentage);
+}
+
+/// Slightly darken a color
+/// @access public
+/// @param {Color} $color - color to shade
+/// @param {Number} $percentage - percentage of `$color` in returned color
+/// @return {Color}
+@function shade($color, $percentage) {
+  @return mix(black, $color, $percentage);
+}
+
+/* Hover Effects Outlines MIXINS */
+
+@mixin btn-drop-shadow-hover {
+    position: relative;
+    &:before {
+        content: '';
+        display: block;
+        width: calc(100%);
+        height: calc(100%);
+        background: transparent;
+        border: 3px solid transparent;
+        border-left-color: transparent;
+        border-top-color: transparent;
+        border-top-width: 0;
+        border-left-width: 0;
+        position: absolute;
+        top: 0;
+        left: 0;
+        z-index: -1;
+        transform: translate(0, 0);
+        opacity: 0;
+        transition: transform .25s ease-in-out, opacity .25s ease-in-out;
+    }
+}
+
+@mixin drop-shadow-hover {
+    &:before {
+        border-right-color: transparent;
+        border-right-width: 0 !important;
+    }
+    &:hover,
+    &:focus {
+        &:before {
+            opacity: 1;
+            transform: translate(0, 6px) !important;
+        }
+    }
+}
+
+@mixin drop-shadow-3d-hover {
+    &:hover,
+    &:focus {
+        &:before {
+            opacity: 1;
+            transform: translate(6px, 6px) !important;
+        }
+    }
+}
+
+// Child attribute mixin
+// NOTE: This mixin breaks JSFiddle?
+// source: https://stackoverflow.com/questions/39556519/the-sass-ampersand-and-attribute-selectors 
+@mixin child-attribute($child) {
+    $string: inspect(&);
+    $original: str-slice($string, 3, -4);
+    @at-root #{ selector-replace(&, &, "[#{$original}#{$child}]" ) } {@content}
+}

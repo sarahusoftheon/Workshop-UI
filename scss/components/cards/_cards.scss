@@ -1,0 +1,161 @@
+@mixin sws-card {
+    box-sizing: border-box;
+    padding: 15px;
+    margin: 2px;
+    background: $color-card-bg;
+    box-shadow: 0 4px 6px 1px rgba(51, 51, 51, 0.41);
+    z-index: 1;
+    @content;
+}
+
+@mixin card-size {
+    width: 100%;
+    max-width: 375px;
+    @content;
+}
+
+@mixin card-size-square {
+    width: 300px;
+    height: 300px;
+    @content;
+}
+
+@mixin drop-shadows($card-size) {
+    @include child-attribute('--1') {
+        @include sws-card;
+        @if  $card-size == square {
+            @include card-size-square;
+        } @else {
+            @include card-size;
+        }
+        box-shadow: 0 4px 6px 1px rgba(51, 51, 51, 0.41);
+    }
+
+    @include child-attribute('--2') {
+        @include sws-card;
+        @if  $card-size == square {
+            @include card-size-square;
+        } @else {
+            @include card-size;
+        }
+        box-shadow: 0 5px 16px 0 rgba(51, 51, 51, 0.46);
+    }
+
+    @include child-attribute('--3') {
+        @include sws-card;
+        @if  $card-size == square {
+            @include card-size-square;
+        } @else {
+            @include card-size;
+        }
+        box-shadow: 0 10px 32px 0 rgba(61, 61, 61, 0.45);
+    }
+
+    @include child-attribute('--4') {
+        @include sws-card;
+        @if  $card-size == square {
+            @include card-size-square;
+        } @else {
+            @include card-size;
+        }
+        box-shadow: 0 12px 72px 0 rgba(0, 0, 0, 0.27);
+    }
+}
+
+
+[sws-card] {
+    @include sws-card;
+    @include card-size;
+    @include drop-shadows(default);
+}
+
+.sws-card {
+    @include sws-card;
+    @include card-size;
+}
+
+[sws-card-square] {
+    @include sws-card;
+    @include card-size-square;
+    @include drop-shadows(square);
+}
+
+.sws-card-square {
+    @include sws-card;
+    @include card-size-square;
+}
+
+/* Displays everything in a column*/
+
+[sws-card__content],
+.sws-card__content {
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-flex-direction: column;
+    -ms-flex-direction: column;
+    flex-direction: column;
+    height: 100%;
+}
+
+
+/* This class brings creates a sub-content box and moves it up into the header image 30px creating a cool effect */
+
+[sws-card__content--fancy],
+.sws-card__content--fancy {
+    background: $color-card-bg;
+    border-radius: 2px;
+    margin: 15px;
+    margin-top: -30px;
+    padding: 5px;
+}
+
+[sws-card__header],
+.sws-card__header {
+    flex-grow: 1;
+    align-items: center;
+    justify-content: center;
+    display: flex;
+    margin-top: -15px;
+    margin-left: -15px;
+    margin-right: -15px;
+}
+
+[sws-card__header__img],
+.sws-card__header__img {
+    flex-grow: 1;
+    margin-top: -15px;
+    margin-left: -15px;
+    margin-right: -15px;
+    overflow: hidden;
+    display: flex;
+    align-items: flex-end;
+    padding: 0 10px;
+    color: $color-white;
+    text-shadow: -1px 1px $color-text-shadow;
+}
+
+[sws-card],
+.sws-card,
+[sws-card--square],
+.sws-card--square,
+[sws-card-content],
+.sws-card-content {
+    hr {
+        margin-top: 10px;
+        margin-bottom: 10px;
+        border: 0;
+        width: 100%;
+        border-top: 1px solid lighten($color-disabled, 11%);
+    }
+}
+
+[sws-default-bg-img] {
+    background-image: url("https://hack.softheon.io/Workshop/Splash_BG.jpg");
+    background-size: cover;
+}
+
+[sws-default-banner-img] {
+    background-image: url("https://hack.softheon.io/Workshop/Splash_Banner.jpg");
+    background-size: cover;
+}

@@ -1,0 +1,509 @@
+[sws-form-group] {
+  display: block;
+  position: relative;
+  min-height: 1px;
+}
+
+[sws-form--simple] {
+  margin-bottom: 10px;
+  display: flex;
+  flex-direction: column-reverse;
+  align-items: flex-start;
+
+  [sws-form__label] {
+    display: inline;
+    position: relative;
+    font-size: 12px;
+    font-weight: 600;
+    color: $color-text;
+    letter-spacing: 1px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+  }
+
+  [sws-form__input] {
+    display: block;
+    font-family: $font-family;
+    width: 100%;
+    max-height: 40px;
+    height: 40px;
+    min-height: 40px;
+    padding: 10px;
+    font-size: 14px;
+    line-height: 1.42857143;
+    box-sizing: border-box;
+    color: $color-text;
+    background-color: $color-white;
+    background-image: none;
+    border: 1px solid;
+    border-color: darken($color-light, 5%);
+    border-radius: 2px;
+    margin-bottom: 2px;
+    -webkit-box-shadow: inset 0 1px 1px rgba($color-black, 0.075);
+    box-shadow: inset 0 1px 1px rgba($color-black, 0.075);
+    -webkit-transition: border-color ease-in-out 0.15s,
+      -webkit-box-shadow ease-in-out 0.15s;
+    -o-transition: border-color ease-in-out 0.15s, box-shadow ease-in-out 0.15s;
+    transition: border-color ease-in-out 0.15s, box-shadow ease-in-out 0.15s;
+
+    @if $theme-name== 'dark' {
+      background-color: #dbe1e4;
+      color: $color-dark;
+
+      &:focus {
+        background-color: $color-white;
+      }
+    }
+
+    &:focus {
+      border-color: $color-primary;
+    }
+
+    &:required,
+    &[required] {
+      & ~ [sws-form__label]:after {
+        content: '';
+        height: 6px;
+        width: 6px;
+        display: block;
+        position: absolute;
+        right: -15px;
+        bottom: 7px;
+        border-radius: 50%;
+        background: tint($color-danger, 20%);
+      }
+    }
+  }
+}
+
+/* TEXTAREA */
+
+[sws-textarea],
+.sws-textarea {
+  margin-top: 25px;
+  margin-bottom: 5px;
+  display: flex;
+  flex-direction: column-reverse;
+  align-items: flex-start;
+
+  [sws-textarea__label],
+  .sws-textarea__label {
+    display: inline-block;
+    position: relative;
+    width: -moz-max-content;
+    width: -webkit-max-content;
+    width: -o-max-content;
+    margin-bottom: 4px;
+    font-family: $font-family;
+    font-weight: 600;
+    font-size: 12px;
+    margin-left: 10px;
+    letter-spacing: 1px;
+  }
+
+  textarea {
+    font-family: $font-family;
+    padding: 10px;
+    border: 2px solid transparent;
+    border-bottom-color: $color-text;
+    position: relative;
+    transition: border-color 0.5s ease;
+    font-size: 14px;
+
+    &:focus {
+      outline: none;
+      border-color: $color-text;
+    }
+
+    &:required,
+    &[required] {
+      & ~ [sws-textarea__label],
+      & ~ .sws-textarea__label {
+        &:after {
+          content: '';
+          height: 6px;
+          width: 6px;
+          display: block;
+          position: absolute;
+          right: -15px;
+          bottom: 2px;
+          border-radius: 50%;
+          background: tint($color-danger, 20%);
+        }
+      }
+    }
+  }
+}
+
+/* FANCY */
+
+/**
+Mixins!
+https://stackoverflow.com/questions/16086377/scss-extend-a-nested-selector-and-override-the-nested-rulesets
+*/
+
+@mixin input-states {
+  // input with text
+  input[value] {
+    background: transparent;
+
+    ~ [sws-form__label] {
+      // color: green !important; - for debugging
+      top: -18px;
+      font-size: 12px;
+    }
+
+    ~ [sws-form__bar] {
+      height: 100%;
+      background: transparent;
+      background: $color-white;
+    }
+  }
+
+  // Input on init
+  input:not([value]):not(:focus):not(:required) {
+    background: transparent;
+
+    ~ [sws-form__label] {
+      // color: purple !important; - for debugging
+      font-size: 14px;
+      top: 10px;
+    }
+
+    ~ [sws-form__bar] {
+      height: 0;
+    }
+  }
+
+  // Input when text is deleted
+  input[value=''] {
+    background: transparent !important;
+
+    ~ [sws-form__label] {
+      // color: orange !important; - for debugging
+      font-size: 14px;
+      top: 10px;
+    }
+
+    ~ [sws-form__bar] {
+      height: 0;
+      background: $color-white;
+    }
+  }
+
+  @content;
+}
+
+@mixin sws-form {
+  display: inline-block;
+  margin-top: 25px;
+  height: 40px;
+  margin-bottom: 5px;
+  box-sizing: border-box;
+  position: relative;
+  font-family: $font-family;
+  width: 100%;
+
+  [sws-label--danger] {
+    margin-top: 45px;
+  }
+
+  input:required,
+  input[required] {
+    & ~ [sws-form__label]:after {
+      content: '';
+      height: 6px;
+      width: 6px;
+      display: block;
+      position: absolute;
+      right: -15px;
+      bottom: 4px;
+      border-radius: 50%;
+      background: tint($color-danger, 20%);
+    }
+  }
+
+  & ~ button {
+    margin-left: -2px;
+  }
+
+  [sws-form__bar] {
+    content: '';
+    box-sizing: border-box;
+    height: 2px;
+    width: 100%;
+    position: absolute;
+    bottom: 0;
+    background: $color-white;
+    border: 1px solid;
+    border-color: transparent;
+    transition: border-color 0.5s ease, height 0.25s ease;
+  }
+
+  [sws-form__label],
+  input[value=''] ~ [sws-form__label] {
+    color: $color-text;
+    font-size: 14px;
+    font-family: $font-family;
+    font-weight: 600;
+    letter-spacing: 1px;
+    position: absolute;
+    pointer-events: none;
+    left: 5px;
+    top: 10px;
+    z-index: 2;
+    margin-left: 5px;
+    transition: 0.2s ease all;
+    -moz-transition: 0.2s ease all;
+    -webkit-transition: 0.2s ease all;
+  }
+
+  @include input-states;
+
+  [sws-form__input] {
+    display: block;
+    width: 100%;
+    max-width: 100%;
+    height: 100%;
+    border: none;
+    position: absolute;
+    bottom: 0;
+    background: transparent;
+    z-index: 1;
+    box-sizing: border-box;
+    font-family: $font-family;
+    font-size: 14px;
+    padding: 10px;
+    transition: all 0.2s ease;
+
+    &:focus {
+      outline: none;
+    }
+
+    &:focus,
+    &:required:valid {
+      height: 100%;
+      transition: height 0.2s ease;
+    }
+
+    &:focus ~ [sws-form__label],
+    &:required:valid ~ [sws-form__label] {
+      top: -18px;
+      font-size: 12px;
+    }
+
+    &:focus ~ [sws-form__bar],
+    &:required:valid ~ [sws-form__bar] {
+      transition: height 0.25s ease, background 0.3s ease-in;
+      height: 100%;
+      z-index: 0;
+      background: $color-white;
+    }
+
+    &:focus ~ [sws-form__bar] {
+      background: $color-white;
+      border-color: #222;
+      transition: border-color 0.5s ease, height 0.25s ease,
+        background 0.3s ease-in;
+    }
+  }
+
+  @content;
+}
+
+[sws-form--light] {
+  @include sws-form {
+    [sws-form__input]:focus ~ [sws-form__bar] {
+      border-color: $color-white;
+    }
+
+    &:focus ~ [sws-form__label],
+    &:required:valid ~ [sws-form__label],
+    input[value=''] ~ {
+      color: $color-white;
+    }
+
+    // Input has content as value
+  }
+
+  @include input-states {
+    input[value] {
+      background: $color-white;
+    }
+  }
+
+  [sws-form__label] {
+    color: $color-white !important;
+  }
+}
+
+[sws-form],
+[sws-form--shadow] {
+  @include sws-form {
+    [sws-form__bar] {
+      height: 0;
+      background: rgba(55, 55, 55, 0.87);
+      transition: 0.5s ease, height 0.25s ease, background 0.25s ease;
+
+      @if $theme-name== 'dark' {
+        background: $color-white;
+      }
+    }
+
+    [sws-form__label] {
+      top: 12px;
+    }
+
+    [sws-form__input]:focus ~ [sws-form__bar] {
+      transition: border-color 0.5s ease, height 0.25s ease,
+        background 0.2s ease-in;
+    }
+
+    [sws-form__input]:focus ~ [sws-form__bar] {
+      border: 2px solid $color-text;
+    }
+
+    [sws-form__input]:valid {
+      border-bottom: 2px solid $color-text;
+    }
+  }
+}
+
+@for $i from 1 through length($products) {
+  [sws-form--#{nth($products, $i)}],
+  .sws-form--#{nth($products, $i)} {
+    @include sws-form {
+      [sws-form__bar] {
+        height: 0;
+        background: #{nth($product_colors, $i)};
+        transition: 0.5s ease, height 0.25s ease, background 0.25s ease;
+
+        @if $theme-name== 'dark' {
+          background: $color-white;
+        }
+      }
+
+      [sws-form__label] {
+        top: 12px;
+      }
+
+      [sws-form__input]:focus ~ [sws-form__bar] {
+        transition: border-color 0.5s ease, height 0.25s ease,
+          background 0.2s ease-in;
+      }
+
+      [sws-form__input]:focus ~ [sws-form__bar] {
+        border: 2px solid #{nth($product_colors, $i)};
+      }
+
+      [sws-form__input]:valid {
+        border-bottom: 2px solid #{nth($product_colors, $i)};
+      }
+    }
+  }
+}
+
+[sws-form--shadow] {
+  [sws-form__input] {
+    &:focus ~ [sws-form__bar] {
+      background: $color-white;
+      border-color: $color-text;
+      box-shadow: 5px 5px 0px 1px $color-text;
+      transition: border-color 0.5s ease, height 0.25s ease,
+        background 0.3s ease-in;
+
+      @if $theme-name== 'dark' {
+        box-shadow: 5px 5px 0px 1px rgba($color-white, 0.25);
+      }
+    }
+  }
+}
+
+[sws-form--outline] {
+  @include sws-form {
+    [sws-form__label] {
+      top: 12px;
+    }
+
+    [sws-form__bar] {
+      border-color: transparent !important;
+    }
+
+    [sws-form__input] {
+      border: 2px solid $color-text;
+      border-color: $color-text;
+      transition: border-color 0.5s ease;
+
+      &:focus {
+        border-color: $color-text;
+      }
+    }
+
+    [sws-form__bar] {
+      background: $color-white;
+    }
+  }
+}
+
+/** Additional states */
+// error state
+[input-error],
+.input-error {
+  [sws-form__input] {
+    border-bottom-color: $color-danger !important;
+  }
+
+  [sws-form__input]:focus ~ [sws-form__bar],
+  [sws-form__input]:focus ~ [sws-form__bar] {
+    border-color: $color-danger !important;
+  }
+
+  [sws-form__bar] {
+    background: rgba($color-danger, 0.87);
+  }
+}
+
+// active state
+[input-active],
+.input-active {
+  [sws-form__label] {
+    top: -18px !important;
+    font-size: 12px !important;
+  }
+}
+
+// hide the label state
+[input-label-hidden],
+.input-label-hidden {
+  [sws-form__label] {
+    opacity: 0 !important;
+  }
+}
+
+// datepicker
+[sws-form__calendar] {
+  text-align: right;
+  padding-right: 10px;
+  z-index: 0;
+  display: block;
+  position: relative;
+  margin-top: 12px;
+}
+
+// form sizes
+[form-sm],
+.form-sm {
+  max-width: 200px;
+}
+[form-md],
+.form-md {
+  max-width: 400px;
+}
+[form-lg],
+.form-lg {
+  max-width: 600px;
+}
+[form-xl],
+.form-xl {
+  max-width: 900px;
+}

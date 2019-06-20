@@ -1,0 +1,694 @@
+//Component Specific Theming
+// $some_variable: 5;
+// @if variable-exists(some_variable) {
+//     /* I get output to the CSS file */
+// }
+// @if variable-exists(nonexistent_variable) {
+//     /* But I don't */
+// }
+// HOW TO DEBUG CSS VARIABLES:
+// body::before{ content: "#{$product_colors}"}
+// @debug "$product_colors"
+// REDEFINE PRODUCT COLORS
+@if global-variable-exists(custom-button-colors) {
+    @if ($custom-button-colors==true) {
+        @if global-variable-exists(custom-primary) {
+            $color-primary: $custom-primary;
+        }
+        @if global-variable-exists(custom-secondary) {
+            $color-secondary: $custom-secondary;
+        }
+        $product_colors: $color-primary,
+        $color-secondary,
+        $color-success,
+        $color-warning,
+        $color-danger,
+        $color-regular,
+        $color-light,
+        $color-dark,
+        $color-jet;
+    }
+}
+
+// IF COLOR IS YELLOW HUE
+@function isYellowHue($color) {
+    $hue-color: round(hue($color));
+    @if ($hue-color >=35deg) {
+        @if ($hue-color <=45deg) {
+            @return true;
+        }
+        @else {
+            @return false;
+        }
+    }
+    @else {
+        @return false;
+    }
+}
+
+@mixin active-shadow {
+    &:after {
+        content: '';
+        width: calc(100% + 1px);
+        box-shadow: 7px 6px rgba(0, 0, 0, 0.25);
+        height: 100%;
+        background: transparent;
+        position: absolute;
+        left: -1px;
+        top: 0;
+        opacity: 0;
+        transition: opacity .25s ease-in-out;
+        @content;
+    }
+    &:focus,
+    &:active {
+        &:after {
+            opacity: .45;
+        }
+    }
+}
+
+@mixin btn-drop-shadow {
+    &:before {
+        content: '';
+        display: block;
+        width: 100%;
+        height: 100%;
+        background: transparent;
+        border: 3px solid transparent;
+        border-left-color: transparent;
+        border-top-color: transparent;
+        border-top-width: 0;
+        border-left-width: 0;
+        position: absolute;
+        top: 0;
+        left: 0;
+        z-index: -1;
+        transform: translate(0, 0);
+        opacity: 0;
+        transition: transform .25s ease-in-out, opacity .25s ease-in-out, border-color .1s ease;
+    }
+    &:hover,
+    &:focus {
+        &:before {
+            opacity: 1;
+            transform: translate(6px, 6px);
+        }
+    }
+    &[rounded],
+    &.rounded {
+        &:before {
+            border-right-width: 2px;
+            border-bottom-width: 2px;
+        }
+        &:hover,
+        &:focus {
+            &:before {
+                opacity: 1;
+                transform: translate(3px, 3px);
+            }
+        }
+    }
+}
+// TODO: GRADIENT BUTTONS??
+//     border-image: linear-gradient(#3F51B5, #76A209) 3;
+@mixin btn-base {
+    position: relative;
+    display: inline-block;
+    overflow: visible;
+    z-index: 1;
+    height: 40px;
+    min-width: 116px;
+    text-decoration: none;
+    text-align: center;
+    vertical-align: middle;
+    border: 2px solid transparent;
+    outline: none !important;
+    margin: 8px;
+    padding: 0 20px;
+    font-size: 14px;
+    font-family: "Segoe UI", "Noto Sans", Tahoma, Geneva, Verdana, sans-serif, sans-serif;
+    font-weight: 600;
+    letter-spacing: 1.25pt;
+    line-height: 34px;
+    background-color: transparent;
+    box-sizing: border-box;
+    text-transform: uppercase;
+    white-space: nowrap;
+    transition: background-color 0.5s cubic-bezier(0.4, 0, 0.2, 1), color 0.2s cubic-bezier(0.4, 0, 0.2, 1), outline .5s ease-in, border .4s ease-out, box-shadow .4s ease-out;
+    cursor: pointer;
+    @include btn-drop-shadow;
+    &:active {
+        box-shadow: inset 3px 3px 0 1px rgba(0, 0, 0, 0.16);
+    }
+    &div,
+    &a {
+        line-height: 36px;
+    }
+    @content;
+}
+
+@mixin btn-lg {
+    @include btn-base {
+        font-size: 16px;
+        height: 60px;
+        line-height: 55px;
+    }
+    @content;
+}
+
+@mixin btn-sm {
+    @include btn-base {
+        height: 30px;
+        line-height: 14px;
+    }
+    @at-root div#{&}, a#{&} {
+        line-height: 26px;
+    }
+    @content;
+}
+
+/** DEFAULT BUTTON MIXIN */
+
+@mixin btn-colorize($color-i, $bg, $bg-hover, $bg-focus) {
+    background-color: $bg;
+    border-color: $bg;
+    color: $color-white;
+    @include active-shadow {
+        box-shadow: 7px 6px #{$bg-focus};
+    }
+    @if ($color-i==$color-light) {
+        color: $color-dark;
+    }
+    @if isYellowHue($color-i) == true {
+        $bg-hover: #{darken($color-i, 4%)};
+        $bg-focus: #{darken($color-i, 8%)};
+    }
+    &:before {
+        border-color: $bg-hover;
+    }
+    &:hover {
+        border-color: $bg-hover;
+        background-color: $bg-hover;
+    }
+    &:focus,
+    &:active {
+        border-color: $bg-focus;
+        background-color: $bg-focus;
+        &:before {
+            border-color: $bg-focus;
+        }
+    }
+}
+
+/** OUTLINE BUTTON MIXIN */
+
+@mixin btn-outline-colorize($color-i, $bg, $bg-hover, $bg-focus) {
+    background-color: transparent;
+    border-color: $bg;
+    color: shade($color-i, 20%);
+    @include active-shadow {
+        box-shadow: 7px 6px #{$bg-focus};
+    }
+    @if $theme-name=="dark" {
+        color: tint($color-i, 12%);
+    }
+    @if isYellowHue($color-i) == true {
+        $bg-focus: #{darken($color-i, 8%)};
+    }
+    &:hover {
+        border-color: $bg-hover;
+    }
+    &:before {
+        border-color: $bg-hover;
+    }
+    &:focus,
+    &:active {
+        border-color: $bg-focus;
+        background-color: $bg-focus;
+        color: $color-white;
+        @if ($color-i==$color-light) {
+            color: $color-dark;
+        }
+        &:before {
+            border-color: $bg-focus;
+        }
+    }
+}
+
+/** FLAT BUTTON MIXIN */
+
+@mixin btn-flat-colorize($color-i, $bg, $bg-hover, $bg-focus) {
+    background-color: transparent;
+    border-color: transparent;
+    color: shade($color-i, 20%);
+    @include active-shadow {
+        box-shadow: 7px 6px #{$bg-focus};
+    }
+    @if $theme-name=="dark" {
+        color: tint($color-i, 12%);
+    }
+    @if isYellowHue($color-i) == true {
+        $bg-focus: #{darken($color-i, 8%)};
+    }
+    &:hover {
+        background-color: transparent;
+        border-color: $bg-hover;
+    }
+    &:before {
+        border-color: $bg-hover;
+    }
+    &:focus,
+    &:active {
+        border-color: $bg-focus;
+        background-color: $bg-focus;
+        color: $color-white;
+        @if ($color-i==$color-light) {
+            color: $color-dark;
+        }
+        &:before {
+            border-color: $bg-focus;
+        }
+    }
+}
+
+/** SIMPLE BUTTON MIXIN */
+
+@mixin btn-simple-colorize($color-i, $bg, $bg-hover, $bg-focus) {
+    background-color: $bg;
+    border-color: $bg;
+    color: $color-white;
+    @if ($color-i==$color-light) {
+        color: $color-dark;
+    }
+    @if isYellowHue($color-i) == true {
+        $bg-hover: #{darken($color-i, 4%)};
+        $bg-focus: #{darken($color-i, 8%)};
+    }
+    &:hover {
+        border-color: $bg-hover;
+        background-color: $bg-hover;
+    }
+    &:focus,
+    &:active {
+        border-color: $bg-focus;
+        background-color: $bg-focus;
+        box-shadow: inset 3px 3px 0 1px rgba(0, 0, 0, 0.2);
+    }
+}
+
+/** FANCY BUTTON MIXIN */
+
+@mixin btn-fancy {
+    overflow: visible;
+    box-sizing: border-box;
+    background: transparent;
+    &:before,
+    &:after {
+        content: "";
+        position: absolute;
+        left: -1px;
+        top: -2px;
+        width: 100%;
+        height: 100%;
+        transition: 0.25s;
+    }
+    &:hover,
+    &:focus {
+        &:before {
+            transform: translateX(-3px) translateY(-3px);
+        }
+        &:after {
+            transform: translateX(3px) translateY(3px);
+        }
+    }
+    &:focus,
+    &:active {
+        &:before {
+            box-shadow: inset 4px 4px rgba(0, 0, 0, 0.25);
+        }
+    }
+    @content;
+}
+
+@mixin btn-fancy-colorize($color-i, $bg, $bg-hover, $bg-focus) {
+    background: transparent;
+    color: shade($color-i, 20%);
+    $focus: rgba($color-i, .3);
+    @if ($color-i==$color-light) {
+        $focus: darken($color-light, 5%);
+    }
+    @if $theme-name=="dark" {
+        color: tint($color-i, 12%);
+    }
+    &:before,
+    &:after {
+        border: 2px solid $bg;
+    }
+    &:focus,
+    &:active {
+        &:before {
+            box-shadow: inset 4px 4px $focus;
+
+        }
+    }
+}
+
+.sws-button,
+[sws-button] {
+    @include btn-base;
+}
+
+// icon to the right of the button text
+.sws-button__icon-r,
+[sws-button__icon-r] {
+    margin-left: 10px;
+}
+
+// icon to the left of the button text
+.sws-button__icon-l,
+[sws-button__icon-l] {
+    margin-right: 10px;
+}
+
+/* DEFAULT BUTTON */
+
+// Iterates through color palette and exports each button
+// ie. sws-button--primary, sws-button--secondary
+@for $i from 1 through length($products) {
+    [sws-button--#{nth($products, $i)}] {
+        $color-i: nth($product_colors, $i);
+        $base: #{nth($product_colors, $i)};
+        $hover: #{shade(nth($product_colors, $i), 12%)};
+        $focus: #{shade(nth($product_colors, $i), 25%)};
+        @include btn-base;
+        @include btn-colorize($color-i, $base, $hover, $focus);
+        @include child-attribute('-lg') {
+            @include btn-lg;
+            @include btn-colorize($color-i, $base, $hover, $focus);
+        }
+        @include child-attribute('-sm') {
+            @include btn-sm;
+            @include btn-colorize($color-i, $base, $hover, $focus);
+        }
+    }
+}
+
+/* OUTLINE BUTTON */
+
+// Iterates through color palette and exports each button
+// ie. sws-button-outline--primary, sws-button-outline--secondary
+@for $i from 1 through length($products) {
+    [sws-button-outline--#{nth($products, $i)}] {
+        $color-i: nth($product_colors, $i);
+        $base: #{nth($product_colors, $i)};
+        $hover: #{shade(nth($product_colors, $i), 12%)};
+        $focus: #{shade(nth($product_colors, $i), 25%)}; // BASE BUTTON
+        @include btn-base;
+        @include btn-outline-colorize($color-i, $base, $hover, $focus);
+        @include child-attribute('-lg') {
+            @include btn-lg;
+            @include btn-outline-colorize($color-i, $base, $hover, $focus);
+            &[rounded],
+            &.rounded {
+                &:before {
+                    width: calc(100% + 1px);
+                }
+            }
+        }
+        @include child-attribute('-sm') {
+            @include btn-sm;
+            @include btn-outline-colorize($color-i, $base, $hover, $focus);
+            &[rounded],
+            &.rounded {
+                &:before {
+                    height: calc(100% - 1px);
+                }
+            }
+        }
+    }
+}
+
+/* FLAT BUTTON */
+
+// Iterates through color palette and exports each button
+// ie. sws-button-flat--primary, sws-button-flat--secondary
+@for $i from 1 through length($products) {
+    [sws-button-flat--#{nth($products, $i)}] {
+        $color-i: nth($product_colors, $i);
+        $base: #{nth($product_colors, $i)};
+        $hover: #{shade(nth($product_colors, $i), 12%)};
+        $focus: #{shade(nth($product_colors, $i), 25%)}; // BASE BUTTON
+        @include btn-base;
+        @include btn-flat-colorize($color-i, $base, $hover, $focus);
+        @include child-attribute('-lg') {
+            @include btn-lg;
+            @include btn-flat-colorize($color-i, $base, $hover, $focus);
+            &[rounded],
+            &.rounded {
+                &:before {
+                    width: calc(100% + 1px);
+                }
+            }
+        }
+        @include child-attribute('-sm') {
+            @include btn-sm;
+            @include btn-flat-colorize($color-i, $base, $hover, $focus);
+            &[rounded],
+            &.rounded {
+                &:before {
+                    height: calc(100% - 1px);
+                }
+            }
+        }
+    }
+}
+
+/* SIMPLE BUTTON */
+
+// Iterates through color palette and exports each button
+// ie. sws-button--primary, sws-button--secondary
+@for $i from 1 through length($products) {
+    [sws-button-simple--#{nth($products, $i)}] {
+        $color-i: nth($product_colors, $i);
+        $base: #{nth($product_colors, $i)};
+        $hover: #{shade(nth($product_colors, $i), 18%)};
+        $focus: #{shade(nth($product_colors, $i), 25%)};
+        @include btn-base;
+        @include btn-simple-colorize($color-i, $base, $hover, $focus);
+        @include child-attribute('-lg') {
+            @include btn-lg;
+            @include btn-simple-colorize($color-i, $base, $hover, $focus);
+        }
+        @include child-attribute('-sm') {
+            @include btn-sm;
+            @include btn-simple-colorize($color-i, $base, $hover, $focus);
+        }
+    }
+}
+
+/* DISABLED */
+
+button {
+    &.disabled,
+    &[disabled] {
+        pointer-events: none;
+        background-color: $color-disabled !important;
+        border-color: $color-disabled !important;
+        -webkit-box-shadow: none;
+        box-shadow: none;
+        color: $color-disabled-text !important;
+        opacity: 0.7;
+        cursor: default;
+    }
+}
+
+/* ROUNDED BUTTONS */
+
+.rounded,
+[rounded] {
+    border-radius: 36px !important;
+    outline: none !important;
+    &:before {
+        border-radius: 36px;
+        border-top: 1px solid transparent !important;
+        border-left: 1px solid transparent !important;
+    }
+    &:after {
+        border-radius: 36px;
+        left: -2px;
+        top: -1px;
+    }
+}
+
+/* ICON BUTTONS */
+
+@mixin sws-icon {
+    position: relative;
+    display: inline-block;
+    width: 40px;
+    height: 40px;
+    min-height: 40px;
+    min-width: 40px;
+    line-height: 37px;
+    z-index: 1;
+    font-size: 14px;
+    padding: 0;
+    margin: 8px;
+    text-align: center;
+    vertical-align: middle;
+    box-sizing: border-box;
+    border: 2px solid transparent;
+    outline: none !important;
+    background-color: transparent;
+    transition: background-color 0.5s cubic-bezier(0.4, 0, 0.2, 1), color 0.2s cubic-bezier(0.4, 0, 0.2, 1), outline .5s ease-in, border .4s ease-out;
+    cursor: pointer;
+    @include btn-drop-shadow;
+    &[rounded],
+    &.rounded {
+        &:before {
+            border-top: 1px solid transparent;
+            border-left: 1px solid transparent;
+        }
+        &:after {
+            left: -2px;
+            top: -1px;
+        }
+    }
+}
+
+@mixin icon-lg {
+    font-size: 16px;
+    letter-spacing: .5px;
+    height: 60px;
+    width: 60px;
+    line-height: 55px;
+}
+
+@mixin icon-sm {
+    letter-spacing: 0;
+    height: 30px;
+    width: 30px;
+}
+
+/* ICON BUTTON */
+
+// Iterates through color palette and exports each button
+// ie. sws-button-flat--primary, sws-button-flat--secondary
+@for $i from 1 through length($products) {
+    [sws-icon--#{nth($products, $i)}] {
+        $color-i: nth($product_colors, $i);
+        $base: #{nth($product_colors, $i)};
+        $hover: #{shade(nth($product_colors, $i), 12%)};
+        $focus: #{shade(nth($product_colors, $i), 25%)};
+        @include sws-icon;
+        @include btn-colorize($color-i, $base, $hover, $focus);
+        @include child-attribute('-lg') {
+            @include sws-icon;
+            @include icon-lg;
+            @include btn-colorize($color-i, $base, $hover, $focus);
+        }
+        @include child-attribute('-sm') {
+            @include sws-icon;
+            @include icon-sm;
+            @include btn-colorize($color-i, $base, $hover, $focus);
+        }
+    }
+}
+
+/* FLAT ICON BUTTON */
+
+// Iterates through color palette and exports each button
+// ie. sws-button-flat--primary, sws-button-flat--secondary
+@for $i from 1 through length($products) {
+    [sws-icon-flat--#{nth($products, $i)}] {
+        $color-i: nth($product_colors, $i);
+        $base: #{nth($product_colors, $i)};
+        $hover: #{shade(nth($product_colors, $i), 12%)};
+        $focus: #{shade(nth($product_colors, $i), 25%)};
+        @include sws-icon;
+        @include btn-flat-colorize($color-i, $base, $hover, $focus);
+        @include child-attribute('-lg') {
+            @include sws-icon;
+            @include icon-lg;
+            @include btn-flat-colorize($color-i, $base, $hover, $focus);
+        }
+        @include child-attribute('-sm') {
+            @include sws-icon;
+            @include icon-sm;
+            @include btn-flat-colorize($color-i, $base, $hover, $focus);
+        }
+    }
+}
+
+/* FLAT OUTLINE BUTTON */
+
+// Iterates through color palette and exports each button
+// ie. sws-button-outline--primary, sws-button-outline--secondary
+@for $i from 1 through length($products) {
+    [sws-icon-outline--#{nth($products, $i)}] {
+        $color-i: nth($product_colors, $i);
+        $base: #{nth($product_colors, $i)};
+        $hover: #{shade(nth($product_colors, $i), 12%)};
+        $focus: #{shade(nth($product_colors, $i), 25%)}; // BASE BUTTON
+        @include sws-icon;
+        @include btn-outline-colorize($color-i, $base, $hover, $focus);
+        @include child-attribute('-lg') {
+            @include sws-icon;
+            @include icon-lg;
+            @include btn-outline-colorize($color-i, $base, $hover, $focus);
+        }
+        @include child-attribute('-sm') {
+            @include sws-icon;
+            @include icon-sm;
+            @include btn-outline-colorize($color-i, $base, $hover, $focus);
+        }
+    }
+}
+
+/* FANCY BUTTON */
+
+// Iterates through color palette and exports each button
+// ie. sws-button-fancy--primary, sws-button-fancy--secondary
+@for $i from 1 through length($products) {
+    [sws-button-fancy--#{nth($products, $i)}] {
+        $color-i: nth($product_colors, $i);
+        $base: #{nth($product_colors, $i)};
+        $hover: #{shade(nth($product_colors, $i), 12%)};
+        $focus: #{shade(nth($product_colors, $i), 25%)};
+        @include btn-base;
+        @include btn-fancy;
+        @include btn-fancy-colorize($color-i, $base, $hover, $focus);
+        line-height: 34px !important;
+        @include child-attribute('-lg') {
+            @include btn-lg;
+            @include btn-fancy;
+            @include btn-fancy-colorize($color-i, $base, $hover, $focus);
+            height: 60px !important;
+        }
+        @include child-attribute('-sm') {
+            @include btn-sm;
+            @include btn-fancy;
+            @include btn-fancy-colorize($color-i, $base, $hover, $focus);
+        }
+    }
+}
+
+// ETC. / GO BACK TO REFERENCES
+// Iterate + Extend
+//@for $i from 1 through length($products) {
+//    [page-#{nth($products, $i)}-lg] {
+//        @extend [sws-button--#{nth($products, $i)}];
+//        p {
+//            background: nth($product_colors, $i)
+//        }
+//    }
+//}
+// AWESOME!!!!!
+// https://stackoverflow.com/questions/39556519/the-sass-ampersand-and-attribute-selectors
+// [grandparent-parent] {
+//  color: white;
+//}
+//[grandparent-parent-child] {
+//  color: blue;
+//}

@@ -1,0 +1,212 @@
+select {
+    margin: 0;
+    font-size: 16px;
+    line-height: inherit;
+}
+
+@for $i from 1 through length($products) {
+
+    [sws-select--#{nth($products, $i)}],
+    .sws-select--#{nth($products, $i)} {
+        position: relative;
+        display: inline-block;
+
+        &:after {
+            content: "";
+            position: absolute;
+            top: 0;
+            width: 0;
+            height: 0;
+            right: 10px;
+            bottom: 0;
+            margin: auto;
+            border-style: solid;
+            border-width: 5px 3px 0 3px;
+            border-color: #{nth($product_colors, $i)} transparent transparent transparent;
+            pointer-events: none;
+            @if $theme-name=="dark" {
+                border-color: $color-text transparent transparent transparent;
+            }
+        }
+
+
+        >select {
+            position: relative;
+            display: inline-block;
+            height: 40px !important;
+            min-width: 116px !important;
+            overflow: hidden;
+            text-decoration: none;
+            text-align: center;
+            vertical-align: middle;
+            font-weight: 600;
+            letter-spacing: 1px;
+            font-family: $font-family;
+            padding: 0 35px 0 5px;
+            cursor: pointer;
+            font-size: 14px;
+            line-height: 36px;
+            color: darken($color-primary, 25%);
+            border-radius: 1px;
+            border: 2px solid transparent;
+            border-bottom: 2px solid #{nth($product_colors, $i)};
+            outline: 2px solid transparent;
+            background: transparent;
+            transition: outline 0.4s ease-in, border 0.3s ease-out, color .2s .15s ease;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            appearance: none;
+
+            @if $theme-name=="dark" {
+                color: $color-text;
+                border-bottom-color: $color-text;
+                option {
+                    color: $color-dark;
+                }
+            }
+
+            &:focus {
+                border: 2px solid #{nth($product_colors, $i)};
+                color: darken($color-primary, 35%);
+
+                @if $theme-name=="dark" {
+                    color: $color-text;
+                    border: 2px solid $color-text;
+                }
+            }
+
+            &::-ms-expand {
+                /* for IE 11 */
+                display: none;
+            }
+
+            &:required,
+            &[required] {
+                &~label {
+                    &:after {
+                        content: '';
+                        height: 6px;
+                        width: 6px;
+                        display: block;
+                        position: absolute;
+                        right: -15px;
+                        bottom: 2px;
+                        border-radius: 50%;
+                        background: tint($color-danger, 20%);
+                        margin-bottom: 19px;
+                        transition: margin-bottom .2s .2s ease;
+                    }
+                }
+            }
+        }
+
+        >label {
+            display: inline;
+            position: relative;
+            font-size: 14px;
+            font-weight: 600;
+            color: $color-text;
+            letter-spacing: 1px;
+            padding-top: 5px;
+            font-family: $font-family;
+            padding-bottom: 17px;
+            bottom: 0;
+            position: absolute;
+            left: 10px;
+            transition: 0.2s 0.2s ease all;
+            -moz-transition: 0.2s 0.2s ease all;
+            -webkit-transition: 0.2s 0.2s ease all;
+        }
+
+        // not required dropdown: state unselected
+        select:not(:required):valid {
+            color: rgba(0, 0, 0, 0); // PotatOS
+        }
+
+        // not required dropdown: state unselected & focused
+        select:not(:required):valid:focus {
+            color: $color-text;
+        }
+
+        // not required dropdown: state selected
+        select[value] {
+            color: $color-text !important;
+
+            ~label {
+                transition: 0.2s ease all;
+                padding-bottom: 50px;
+                font-size: 12px;
+            }
+        }
+
+        // required dropdown: state unselected
+        select:invalid {
+            transition: 0.2s 0.2s ease all;
+            color: rgba(0, 0, 0, 0); // PotatOS
+        }
+
+        // required dropdown: state unselected & focused
+        select:invalid:focus {
+            color: $color-text;
+
+            ~label {
+                transition: 0.2s ease all;
+                padding-bottom: 50px;
+                font-size: 12px;
+
+                &:after {
+                    transition: 0.2s ease all;
+                    margin-bottom: 51px;
+                }
+            }
+        }
+
+        // required dropdown: state selected
+        select:required:valid {
+            color: $color-text;
+
+            ~label {
+                transition: 0.2s ease all;
+                padding-bottom: 50px;
+                font-size: 12px;
+
+                &:after {
+                    margin-bottom: 51px;
+                    transition: 0.2s ease all;
+                }
+            }
+        }
+    }
+}
+
+[m-forms] {
+    margin-top: 25px !important;
+    margin-bottom: 5px !important;
+}
+
+/** Additional states */
+// error state
+[dropdown-error], .dropdown-error {
+    select {
+        border-bottom-color: $color-danger !important;
+
+        &:focus {
+            border-color: $color-danger !important;
+        }
+    }
+}
+
+// active state
+[dropdown-active], .dropdown-active {
+    label {
+        padding-bottom: 50px !important;
+        font-size: 12px !important;
+    }
+}
+
+// hide the label state
+[dropdown-label-hidden], .dropdown-label-hidden {
+    label {
+        opacity: 0 !important;
+    }
+}

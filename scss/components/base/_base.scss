@@ -1,0 +1,890 @@
+// :ROOT VARIABLES FOR THEMEING
+// set CSS4 vars out of color map
+:root {
+    @for $i from 1 through length($products) {
+        $product: nth($products, $i);
+        $color: nth($product_colors, $i);
+        --color-#{$product}: #{$color};
+    }
+    --primary-lighten-25: #{lighten($color-primary, 25%)};
+    --primary-lighten-15: #{lighten($color-primary, 15%)};
+    --primary-lighten-10: #{lighten($color-primary, 10%)};
+    --primary-lighten-5: #{lighten($color-primary, 5%)};
+    --primary-darken-5: #{darken($color-primary, 5%)};
+    --primary-darken-10: #{darken($color-primary, 10%)};
+    --primary-darken-15: #{darken($color-primary, 15%)};
+    --primary-darken-25: #{darken($color-primary, 25%)};
+}
+
+body {
+    font-family: $font-family;
+    font-size: 14px;
+    background: $color-bg;
+    color: $color-text;
+    @media screen and (max-width: $screen-sm) {
+        font-size: 12px;
+    }
+}
+
+// Typography
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+.h1,
+.h2,
+.h3,
+.h4,
+.h5,
+.h6 {
+    font-weight: 400 !important;
+    line-height: normal;
+}
+
+h1,
+.h1,
+[h1] {
+    font-size: 2.5em !important;
+}
+
+h2,
+.h2,
+[h2] {
+    font-size: 2em !important;
+}
+
+h3,
+.h3,
+[h3] {
+    font-size: 1.75em !important;
+}
+
+h4,
+.h4,
+[h4] {
+    font-size: 1.5em !important;
+}
+
+h5,
+.h5,
+[h5] {
+    font-size: 1.25em !important;
+}
+
+h6,
+.h6,
+[h6] {
+    font-size: 1.1em !important;
+    margin-bottom: 1em !important;
+    margin-top: 1em !important;
+}
+
+p {
+    line-height: 1.4;
+}
+
+/* TODO: MOBILE FONT SIZES */
+
+// iterates through all the display classes/attributes
+@for $i from 1 through 4 {
+    [display-#{$i}],
+    display-#{$i} {
+        display: block;
+        font-weight: 300 !important;
+        margin-bottom: 10px;
+        line-height: 1.2;
+    }
+}
+
+[display-1],
+display-1 {
+    font-size: 6em !important;
+}
+
+[display-2],
+display-2 {
+    font-size: 5.5em !important;
+}
+
+[display-3],
+display-3 {
+    font-size: 4.5em !important;
+}
+
+[display-4],
+display-4 {
+    font-size: 3.5em !important;
+}
+
+.lead,
+[lead] {
+    font-size: 1.25em;
+    font-weight: 300;
+}
+
+.text-center,
+[text-center] {
+    text-align: center !important;
+}
+
+.text-right,
+[text-right] {
+    text-align: right !important;
+}
+
+.text-left,
+[text-left] {
+    text-align: left !important;
+}
+
+.workshop,
+[workshop] {
+    font-family: 'Aldrich', sans-serif !important;
+}
+
+.console,
+[console] {
+    font-family: 'Share Tech Mono', monospace !important;
+    letter-spacing: 3px;
+    line-height: normal;
+}
+
+.text-upper,
+[text-upper] {
+    text-transform: uppercase;
+}
+
+.text-lower,
+[text-lower] {
+    text-transform: lowercase;
+}
+
+.text-capitzalize,
+[text-capitzalize] {
+    text-transform: capitalize;
+}
+
+.text-reset,
+[text-reset],
+.text-unset,
+[text-unset] {
+    text-transform: unset !important;
+}
+
+.truncate-text,
+[truncate-text] {
+    display: block;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+/* Color Typography */
+
+// Iterates through color palette and exports each color
+// ie. sws-primary, sws-secondary
+@for $i from 1 through length($products) {
+    .sws-#{nth($products, $i)},
+    [sws-#{nth($products, $i)}],
+    .text-#{nth($products, $i)},
+    [text-#{nth($products, $i)}] {
+        color: darken(nth($product_colors, $i), 5%) !important;
+    }
+}
+
+// iterates over text color styles
+.text-white,
+[text-white] {
+    color: #fff !important;
+}
+
+/* Color Backgrounds */
+
+// Iterates through color palette and exports each color
+// ie. bg-primary, bg-secondary
+@for $i from 1 through length($products) {
+    .bg-#{nth($products, $i)},
+    [bg-#{nth($products, $i)}] {
+        background: nth($product_colors, $i) !important;
+    }
+}
+
+// iterates over text color styles
+.bg-white,
+[bg-white] {
+    background: #fff !important;
+}
+
+[bg-gradient],
+.bg-gradient {
+    background: linear-gradient(to right, tint($color-primary, 25%), tint($color-secondary, 25%));
+}
+
+[bg-gradient--reverse],
+.bg-gradient--reverse {
+    background: linear-gradient(to left, tint($color-primary, 25%), tint($color-secondary, 25%));
+}
+
+/* Color Outlines */
+
+@for $i from 1 through length($products) {
+    .outline--#{nth($products, $i)}-thin,
+    [outline--#{nth($products, $i)}-thin] {
+        border: 2px solid nth($product_colors, $i) !important;
+    }
+    .outline--#{nth($products, $i)}-medium,
+    [outline--#{nth($products, $i)}-medium] {
+        border: 2px solid saturate(transparentize(nth($product_colors, $i), .68), 5%) !important;
+        outline: 2px solid nth($product_colors, $i) !important;
+    }
+}
+
+/* BG & Text */
+
+$additionalcolornames: (dark, light);
+$additionalcolors: ($color-dark, $color-light);
+// Iterates through additional color palette and exports each color
+// ie. sws-primary, sws-secondary
+@for $i from 1 through length($additionalcolornames) {
+    .sws-#{nth($additionalcolornames, $i)},
+    [sws-#{nth($additionalcolornames, $i)}],
+    .text-#{nth($additionalcolornames, $i)},
+    [text-#{nth($additionalcolornames, $i)}] {
+        color: nth($additionalcolors, $i) !important;
+    }
+    .bg-#{nth($additionalcolornames, $i)},
+    [bg-#{nth($additionalcolornames, $i)}] {
+        background: nth($additionalcolors, $i) !important;
+    }
+    .outline-#{nth($additionalcolornames, $i)}-thin,
+    [outline-#{nth($additionalcolornames, $i)}-thin] {
+        border: 2px solid nth($additionalcolors, $i) !important;
+    }
+    .outline-#{nth($additionalcolornames, $i)}-medium,
+    [outline-#{nth($additionalcolornames, $i)}-medium] {
+        border: 2px solid saturate(transparentize(nth($product_colors, $i), .68), 5%) !important;
+        outline: 2px solid nth($additionalcolors, $i) !important;
+    }
+}
+
+// iterates over text color styles
+.sws-light-shadow,
+[sws-light-shadow],
+.text-light-shadow,
+[text-light-shadow] {
+    color: $color-white !important;
+    text-shadow: -1px 1px 2px rgba($color-text-shadow, .7) !important;
+}
+
+// give any element full-width
+[full-width],
+.full-width {
+    width: 100% !important;
+}
+
+// give any element full-height
+[full-height],
+.full-height {
+    height: 100% !important;
+}
+
+.full-height-vh,
+[full-height-vh] {
+    height: 100vh;
+}
+
+.full-width-vw,
+[full-width-vw] {
+    height: 100vw;
+}
+
+// center aligns via margin
+[margin-0-auto],
+[m-0-auto], .m-0-auto {
+    margin: 0 auto;
+}
+
+// left align + right align auto margin
+[m-l-auto],
+.m-l-auto {
+    margin-left: auto !important;
+}
+
+[m-r-auto],
+.m-r-auto {
+    margin-right: auto !important;
+}
+
+[semibold],
+.semibold {
+    font-weight: 600;
+}
+
+[semilight],
+.semilight {
+    font-weight: 300 !important;
+}
+
+[text-dec-none],
+.text-dec-none {
+    text-decoration: none !important;
+}
+
+[cursor-pointer],
+.cursor-pointer {
+    cursor: pointer;
+}
+
+/* Cool Link Hover Effect */
+
+// https://codemyui.com/wired-style-hyperlink-animation/ ,  link animation designed by Dan Klotz.
+// also inspired by https://mildrenben.github.io/surface/docs/links.html
+a {
+    &[sws-link],
+    &.sws-link {
+        position: relative;
+        display: inline-block;
+        text-decoration: none;
+        border-bottom: 1px dotted $color-primary;
+        padding: 0 .2em;
+        transition: all .3s;
+        color: darken($color-primary, 15%);
+        &:visited {
+            color: darken($color-primary, 10%);
+        }
+        &:before {
+            content: "";
+            z-index: 0;
+            width: 100%;
+            height: 0%;
+            background: lighten(rgba($color-primary, 0.3), 20%);
+            bottom: 0;
+            left: 0;
+            position: absolute;
+            -webkit-transition: height 250ms;
+            transition: height 250ms;
+        }
+        &:hover,
+        &:focus {
+            border-color: transparent;
+            cursor: pointer;
+            &:before {
+                height: 100%;
+            }
+        }
+    }
+}
+
+@for $i from 1 through length($products) {
+    [sws-link--#{nth($products, $i)}],
+    .sws-link--#{nth($products, $i)} {
+        text-decoration: none !important;
+        padding: 0 .6em;
+        display: inline-block;
+        position: relative;
+        font-weight: 600;
+        line-height: 1.6;
+        color: #{shade(nth($product_colors, $i), 10%)} !important;
+        &:before {
+            content: "";
+            position: absolute;
+            z-index: 2;
+            width: 0;
+            bottom: -1px;
+            background: shade($color-light, 15%);
+            height: 2px;
+            left: 0;
+            right: 0;
+            margin: 0 auto;
+            width: calc(100% - 5px);
+            background: transparent !important;
+            border-bottom: 2px dotted rgba(nth($product_colors, $i), .5) !important;
+        }
+        &:after {
+            content: "";
+            position: absolute;
+            z-index: 2;
+            right: 0;
+            width: 0;
+            bottom: -1px;
+            background: #{nth($product_colors, $i)} !important;
+            height: 2px;
+            transition-delay: 0.2s;
+            transition-property: width;
+            transition-duration: 0.3s;
+            transition-timing-function: ease-out;
+            margin: 0 auto;
+        }
+        &:hover:after,
+        &:focus:after,
+        &:active:after {
+            left: 0;
+            right: auto;
+            width: 100%;
+        }
+    }
+}
+
+/* Fancy HR */
+
+[sws-fancy-hr],
+.sws-fancy-hr {
+    border: 1px solid darken($color-regular, 10%);
+    border-radius: 50%;
+    position: relative;
+    display: block;
+    height: 10px;
+    width: 10px;
+    margin: 5px auto;
+    &:before,
+    &:after {
+        content: "";
+        width: 50px;
+        display: block;
+        height: 1px;
+        background-color: darken($color-regular, 10%);
+        margin: auto;
+        position: absolute;
+        top: 0;
+        left: 0;
+        bottom: 0;
+        right: 0;
+    }
+    &:before {
+        margin-right: 10px;
+    }
+    &:after {
+        margin-left: 10px;
+    }
+}
+
+/* Small & Bold Small HR */
+
+[sws-hr-sm],
+.sws-hr-sm,
+[sws-hr-sm--bold],
+.sws-hr-sm--bold {
+    margin-top: 10px;
+    margin-bottom: 10px;
+    border: 0;
+    width: 150px;
+    max-width: 150px;
+    border-top: 1px solid lighten($color-regular, 11%);
+}
+
+[sws-hr-sm--bold],
+.sws-hr-sm--bold {
+    border-top: 2px solid $color-text-shadow;
+    width: 0;
+    max-width: 100px;
+    animation: introhr .4s ease-in-out forwards;
+}
+
+@keyframes introhr {
+    from {
+        width: 0;
+    }
+    to {
+        width: 100px;
+    }
+}
+
+/* Custom Scrollbar */
+
+/* width */
+
+::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+}
+
+/* Track */
+
+::-webkit-scrollbar-track {
+    background: #f1f1f1;
+}
+
+/* Handle */
+
+::-webkit-scrollbar-thumb {
+    background: #888;
+}
+
+/* Handle on hover */
+
+::-webkit-scrollbar-thumb:hover {
+    background: #555;
+}
+
+/* Images */
+
+.img-rounded,
+[img-rounded] {
+    border-radius: 50% !important;
+}
+
+/* Box Shadows */
+
+[sws-shadow], .sws-shadow, [sws-shadow--1], .sws-shadow--1 {
+    box-shadow: 0 4px 6px 1px rgba(51, 51, 51, 0.41);
+}
+
+[sws-shadow--2], .sws-shadow--2, [sws-card][sws-shadow--2] {
+    box-shadow: 0 5px 16px 0 rgba(51, 51, 51, 0.46);
+}
+
+[sws-shadow--3], .sws-shadow--3, [sws-card][sws-shadow--3] {
+    box-shadow: 0 10px 32px 0 rgba(61, 61, 61, 0.45);
+}
+
+[sws-shadow--4], .sws-shadow--4, [sws-card][sws-shadow--4] {
+    box-shadow: 0 12px 72px 0 rgba(0, 0, 0, 0.27);
+}
+
+/* Flexbox */
+[sws-container],
+.sws-container {
+    margin: 0 4%;
+}
+[sws-container-sm],
+.sws-container-sm {
+    margin: 0 2%;
+}
+[sws-container-lg],
+.sws-container-lg {
+    margin: 0 6%;
+}
+
+[sws-container-xlg],
+.sws-container-xlg {
+    margin: 0 12%;
+}
+
+%flex-container {
+    display: flex;
+}
+
+[flex-container] {
+    @extend %flex-container;
+}
+
+.flex-container {
+    @extend %flex-container;
+    &-column {
+        flex-direction: column;
+    }
+    &-row {
+        flex-direction: row;
+    }
+}
+
+.flex-container-row,
+[flex-container-row] {
+    @extend %flex-container;
+    flex-direction: row;
+}
+
+.flex-container-column,
+[flex-container-column] {
+    @extend %flex-container;
+    flex-direction: column;
+}
+
+[flex-container-responsive],
+.flex-container-responsive {
+    @extend %flex-container;
+    flex-direction: row;
+    @media screen and (max-width: $screen-md) {
+        flex-direction: column;
+    }
+}
+
+.flex-wrap,
+[flex-wrap] {
+    flex-wrap: wrap;
+}
+
+.flex-nowrap,
+[flex-nowrap] {
+    flex-wrap: nowrap;
+}
+
+.inline-flex,
+[inline-flex] {
+    display: inline-flex;
+}
+
+.flex-1,
+[flex-1] {
+    flex: 1;
+}
+
+.flex-2,
+[flex-2] {
+    flex: 2;
+}
+
+.flex-3,
+[flex-3] {
+    flex: 3;
+}
+
+.flex-4,
+[flex-4] {
+    flex: 4;
+}
+
+.flex-5,
+[flex-5] {
+    flex: 5;
+}
+
+// container class
+.flex-center,
+flex-center,
+[flex-center] {
+    @extend %flex-container;
+    align-items: center;
+    justify-content: center;
+}
+
+.flex-start,
+flex-start,
+[flex-start] {
+    @extend %flex-container;
+    justify-content: flex-start;
+}
+
+.flex-end,
+flex-end,
+[flex-end] {
+    @extend %flex-container;
+    justify-content: flex-end;
+}
+
+.flex-space-evenly,
+flex-space-evenly,
+[flex-space-evenly] {
+    @extend %flex-container;
+    justify-content: space-evenly;
+}
+
+.flex-space-between,
+flex-space-between,
+[flex-space-between] {
+    @extend %flex-container;
+    justify-content: space-between;
+}
+
+.align-items-v,
+[align-items-v] {
+    align-items: center;
+}
+
+[v-middle] {
+    vertical-align: middle;
+}
+
+.flex-column-justify-center,
+[flex-column-justify-center] {
+    display: flex;
+    vertical-align: middle;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.everything-center-container,
+[everything-center-container] {
+    @extend %flex-container;
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    vertical-align: middle;
+}
+
+@media screen and (max-width: $screen-md) {
+    [mobile-column],
+    .mobile-column {
+        flex-direction: column;
+    }
+    [mobile-center],
+    .mobile-center {
+        align-items: center;
+        text-align: center;
+        justify-content: center;
+        [text-right],
+        .text-right {
+            text-align: center !important;
+        }
+    }
+    $i: 10;
+    @while $i>0 {
+        [mobile-order-#{$i}],
+        .mobile-order-#{$i} {
+            order: $i;
+        }
+        $i: $i - 1;
+    }
+}
+
+// TODO: Depricate?
+.column-mobile,
+[column-mobile] {
+    @media screen and (max-width: $screen-sm) {
+        flex-direction: column;
+    }
+}
+
+[invisible-absolute],
+.invisible-absolute {
+    position: absolute;
+    color: transparent;
+    width: 0;
+    font-size: 3px;
+    user-select: none;
+}
+
+.hidden,
+[hidden] {
+    display: none !important;
+}
+
+.hidden-mobile,
+[hidden-mobile] {
+    @media screen and (max-width: $screen-sm) {
+        display: none !important;
+    }
+}
+
+[hidden-tablet] {
+    @media screen and (max-width: $screen-lg) {
+        display: none !important;
+    }
+}
+
+.visible-mobile,
+[visible-mobile] {
+    @media screen and (min-width: $screen-md-min-width) {
+        display: none !important;
+    }
+}
+
+.visible-tablet,
+[visible-tablet] {
+    @media screen and (min-width: $screen-xlg-min-width) {
+        display: none !important;
+    }
+}
+
+[border-box] {
+    box-sizing: border-box;
+}
+
+.remove-all-styles,
+[remove-all-styles] {
+    all: unset;
+}
+
+// Fix for potato browsers
+@supports (-ms-ime-align: auto) {
+    .flex-space-evenly,
+    flex-space-evenly,
+    [flex-space-evenly] {
+        justify-content: space-between;
+        &:after,
+        &:before {
+            content: '';
+            display: block;
+        }
+    }
+}
+
+_:-ms-fullscreen,
+:root .flex-space-evenly,
+flex-space-evenly,
+[flex-space-evenly] {
+    justify-content: space-between;
+    &:after,
+    &:before {
+        content: '';
+        display: block;
+    }
+}
+
+// Code presets
+code {
+    font-family: monospace, monospace;
+    font-size: 90%;
+}
+
+pre {
+    box-sizing: border-box;
+    padding: 20px;
+    border-radius: 4px;
+    color: $color-jet;
+    background: #ecf0f1;
+    border: 1px dashed #bdc0c3;
+    overflow: auto;
+    &::-webkit-scrollbar:horizontal {
+        height: 7px;
+    }
+}
+
+// Tables
+[sws-table], .sws-table {
+    border-spacing: 0;
+    box-shadow: 0 -4px 0 0 #0079C7;
+    box-shadow: 0 -4px 0 0 lighten($color-primary, 11%);
+    border: 2px solid #dedede;
+    border-top-color: transparent;
+    border-top-width: 0;
+    min-width: 300px;
+    color: $color-text;
+    background: $color-card-bg;
+    @if $theme-name=="dark" {
+        border: 2px solid  $color-regular;
+    }
+
+    tr > th {
+        font-size: 80%;
+        text-align: left;
+        color: $color-jet;
+        @if $theme-name=="dark" {
+            color: $color-text;
+        }
+        border-bottom-width: 1px;
+        border-bottom-style: solid;
+        border-bottom-color: #dedede;
+        font-weight: 600;
+        padding: 20px;
+    }
+
+    td {
+        border-bottom-width: 1px;
+        border-bottom-style: solid;
+        border-bottom-color: #efefef;
+        padding: 20px;
+    }
+
+    code {
+        background: $color-light;
+        padding: 0 5px;
+    }
+}
+
+/** Display Utility Classes */
+
+[d-block], .d-block {
+    display: block;
+}
+
+[d-inline], .d-inline {
+    display: inline;
+}
+
+[d-inline-block], .d-inline-block {
+    display: inline-block;
+}

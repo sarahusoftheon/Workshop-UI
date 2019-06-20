@@ -1,0 +1,226 @@
+/* Radio "Button Groups" */
+@mixin btn-drop-shadow {
+    &:before {
+        content: '';
+        display: block;
+        width: calc(100%);
+        height: calc(100%);
+        background: transparent;
+        border: 3px solid transparent;
+        border-left-color: transparent;
+        border-top-color: transparent;
+        border-right-color: transparent;
+        border-right-width: 0;
+        border-top-width: 0;
+        border-left-width: 0;
+        position: absolute;
+        top: 0;
+        left: 0;
+        z-index: -1;
+        transform: translate(0, 0);
+        opacity: 0;
+        transition: transform .25s ease-in-out, opacity .25s ease-in-out;
+    }
+    &:hover,
+    &:focus {
+        &:before {
+            opacity: 1;
+            transform: translate(0, 6px);
+        }
+    }
+}
+
+[sws-button-group] {
+    display: flex;
+    align-items: center;
+    margin: 8px;
+
+    input {
+        width: 1px;
+        height: 1px;
+        outline: none;
+        opacity: 0;
+        position: absolute;
+
+        &:focus + label {
+            color: $color-dark;
+        }
+    }
+
+    & label {
+        position: relative;
+        display: inline-block;
+        overflow: visible;
+        z-index: 1;
+        height: 40px;
+        min-width: 116px;
+        text-decoration: none;
+        text-align: center;
+        vertical-align: middle;
+        border: 2px solid transparent;
+        outline: none !important;
+        margin: 0 -1px 0 0;
+        padding: 0 20px;
+        font-size: 14px;
+        font-family: "Segoe UI", "Noto Sans", Tahoma, Geneva, Verdana, sans-serif, sans-serif;
+        font-weight: 600;
+        letter-spacing: 1.25pt;
+        line-height: 36px;
+        background-color: transparent;
+        box-sizing: border-box;
+        text-transform: uppercase;
+        transition: background-color 0.5s cubic-bezier(0.4, 0, 0.2, 1), color 0.2s cubic-bezier(0.4, 0, 0.2, 1), outline .5s ease-in, border .4s ease-out, box-shadow .5s ease-out;
+        cursor: pointer;
+        @include btn-drop-shadow;
+        &:active {
+            box-shadow: inset 3px 3px 0 1px rgba(0, 0, 0, 0.16);
+        }
+     
+        @if $theme-name == "dark" {
+            color: $color-text;
+        }
+    }
+
+    input:checked + label {
+        background: $color-dark;
+        color: $color-white;
+        
+        &:after {
+            background-color: $color-dark;
+            transform: scale(1);
+        }
+    }
+}
+
+/** DEFAULT BUTTON MIXIN */
+@mixin btn-colorize($color-i, $bg, $bg-hover, $bg-focus) {
+    background-color: $bg;
+    border-color: $bg;
+    color: $color-white;
+    @if ($color-i==$color-light) {
+        color: $color-dark !important;
+    }
+    @if ($color-i==$color-warning) {
+        $bg-hover: #{darken($color-i, 4%)};
+        $bg-focus: #{darken($color-i, 8%)};
+    }
+    &:hover {
+        border-color: $bg-hover;
+        background-color: $bg-hover;
+    }
+    &:focus,
+    &:active {
+        border-color: $bg-focus;
+        background-color: $bg-focus;
+    }
+    &:before {
+        border-color: $bg;
+    }
+}
+
+// Iterates through color palette and exports each button group
+// ie. sws-button-group--primary, sws-button-group--secondary
+@for $i from 1 through length($products) {
+    [sws-button-group--#{nth($products, $i)}] {
+        @extend [sws-button-group];
+        $color-i: nth($product_colors, $i);
+        $base: #{nth($product_colors, $i)};
+        $hover: #{shade(nth($product_colors, $i), 12%)};
+        $focus: #{shade(nth($product_colors, $i), 25%)};
+
+        input {
+            &:focus + label {
+                @if ($color-i==$color-light) {
+                    color: $color-dark;
+                } @else {
+                    color: $color-white;
+                }
+                border-color: $base;
+                background-color: $base;
+                &:before {
+                    opacity: 1;
+                    transform: translate(0, 6px);
+                    border-color: $base;
+                }
+            }
+        }
+
+        & label {
+            @include btn-drop-shadow;
+            border: 2px solid nth($product_colors, $i);
+
+            &:before {
+                border-color: $base;
+            }
+        }
+
+        input:checked + label {
+            @include btn-drop-shadow;
+            background: nth($product_colors, $i);
+            @if ($color-i==$color-light) {
+                color: $color-dark !important;
+            } @else {
+                color: $color-white;
+            }
+            &:before {
+                border-color: $base;
+            }
+        }
+
+        
+        input:checked:focus + label {
+            border-color: $base;
+            background-color: $base;
+            @if ($color-i==$color-light) {
+                color: $color-dark !important;
+            } @else {
+                color: $color-white;
+            }
+            &:before {
+                opacity: 1;
+                transform: translate(0, 6px);
+                border-color: $base;
+            }
+        }
+    }
+    // iterates over button group styles
+}
+
+/* Hover Effects Outlines */
+
+@for $i from 1 through length($products) {
+    .sws-hover--#{nth($products, $i)},
+    [sws-hover--#{nth($products, $i)}] {
+        @include btn-drop-shadow-hover;
+        @include drop-shadow-hover;
+        &:before {
+            border-bottom-color: #{nth($product_colors, $i)} !important;
+        }
+    }
+    .sws-hover-3d--#{nth($products, $i)},
+    [sws-hover-3d--#{nth($products, $i)}] {
+        @include btn-drop-shadow-hover;
+        @include drop-shadow-3d-hover;
+        &:before {
+            border-color: #{nth($product_colors, $i)} !important;
+        }
+    }
+    .sws-hover--#{nth($products, $i)}-outline,
+    [sws-hover--#{nth($products, $i)}-outline] {
+        @include btn-drop-shadow-hover;
+        @include drop-shadow-hover;
+        border: 2px solid #{nth($product_colors, $i)} !important;
+        &:before {
+            border-bottom-color: #{nth($product_colors, $i)} !important;
+        }
+    }
+    .sws-hover-3d--#{nth($products, $i)}-outline,
+    [sws-hover-3d--#{nth($products, $i)}-outline] {
+        @include btn-drop-shadow-hover;
+        @include drop-shadow-3d-hover;
+        border: 2px solid #{nth($product_colors, $i)} !important;
+        &:before {
+            border-color: #{nth($product_colors, $i)} !important;
+        }
+    }
+}

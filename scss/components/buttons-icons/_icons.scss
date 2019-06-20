@@ -1,0 +1,58 @@
+.sws-menu-container {
+    position: relative;
+    display: inline-block;
+    width: 40px;
+    margin-top: 10px;
+    padding-top: 10px;
+    height: 24px;
+    z-index: 10;
+  
+    // TODO: CREATE A SMART CLASS TO DETECT LIGHT/DARK BACKOGROUND COLOR?? CAN THIS BE DONE IN SASS??
+
+    & .sws-menu-icon,
+    & .sws-menu-icon:before,
+    & .sws-menu-icon:after {
+      background-color: $color-dark;
+      position: absolute;
+      width: 40px;
+      height: 3px;
+      transition-timing-function: ease;
+      transition-duration: 0.15s;
+      transition-property: transform;
+      border-radius: 4px;
+    }
+  
+    & .sws-menu-icon {
+      &:before {
+        width: 30px;
+        display: block;
+        content: "";
+        top: -10px;
+      }
+  
+      &:after {
+        width: 30px;
+        top: 10px;
+        display: block;
+        content: "";
+      }
+    }
+  
+    &:hover {
+        cursor: pointer;
+      & .sws-menu-icon {
+        background-color: transparent;
+        &:before {
+          top: 0;
+          width: 40px;
+          transform: rotate(45deg);
+        }
+        &:after {
+          top: 0;
+          width: 40px;
+          transform: rotate(-45deg);
+        }
+      }
+    }
+  }
+  

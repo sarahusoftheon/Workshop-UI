@@ -1,0 +1,129 @@
+// uncomment when for dev mode so the file can compile
+//@import "../dev/_dev";
+/* Radio Buttons */
+
+[sws-radio],
+.sws-radio {
+  position: relative;
+  margin: 8px;
+  min-height: 20px;
+  display: inline-block;
+  input {
+    height: 0;
+    width: 0;
+    opacity: 0;
+    position: absolute;
+    display: inline-block;
+    vertical-align: middle;
+    &:focus + label {
+      text-decoration: underline;
+      transition: all 0.3s;
+      &:before {
+        box-shadow: 0 0 0px 2px transparentize($color-disabled-text, 0.75);
+      }
+    }
+  }
+  & label {
+    margin-left: 20px;
+    display: inline-block;
+    vertical-align: middle;
+    font-weight: 600;
+    letter-spacing: 1.25pt;
+    line-height: 1.4;
+    text-transform: uppercase;
+    margin-left: 32px;
+    text-decoration: none;
+    &:before {
+      content: "";
+      box-sizing: border-box;
+      height: 20px;
+      left: 0;
+      position: absolute;
+      top: 0;
+      transition: border-color ease 280ms;
+      width: 20px;
+      border-width: 2px;
+      border-style: solid;
+      border-radius: 50%;
+      border-color: $color-disabled-text;
+      background-color: fade-out($color-white, 0.8);
+      box-shadow: 0 0 0px 2px transparent;
+      @if $theme-name== "dark" {
+        border-color: fade-out($color-text, 0.5);
+      }
+    }
+    &:after {
+      content: "";
+      z-index: 1;
+      background-color: $color-white;
+      border-radius: 50%;
+      box-sizing: border-box;
+      height: 12px;
+      left: 4px;
+      position: absolute;
+      top: 4px;
+      transition: transform ease 280ms, background-color ease 280ms;
+      width: 12px;
+      transform: scale(0.001);
+    }
+    &:hover {
+      cursor: pointer;
+    }
+  }
+  input:checked:focus + label {
+    &:before {
+      box-shadow: 0 0 0px 2px transparentize($color-primary, 0.6);
+    }
+  }
+  input:checked + label {
+    &:before {
+      //border-color: $color-dark;
+      border-color: $color-primary;
+      background-color: fade-out($color-white, 1);
+      box-shadow: 0 0 0px 2px transparent;
+    }
+    &:after {
+      //background-color: $color-dark;
+      background-color: $color-primary;
+      transform: scale(1);
+    }
+  }
+}
+
+// if they want input to the right
+[sws-radio-r] {
+  @extend .sws-radio;
+  text-align: right;
+  input {
+    width: 0;
+    opacity: 0;
+    position: absolute;
+  }
+  label {
+    margin-right: 30px;
+    margin-left: 0;
+    &:before {
+      left: auto;
+      right: 0;
+    }
+    &:after {
+      left: auto;
+      right: 4px;
+    }
+  }
+}
+
+// radio button container class - to make the buttons veritcal
+[sws-radio-button-group],
+.sws-radio-button-group {
+  width: auto;
+  height: auto;
+  display: inline-block;
+  & > [sws-radio],
+  & > [sws-radio-r] {
+    display: block;
+  }
+}
+
+// radio button group styles
+// TODO: theming for radio buttons

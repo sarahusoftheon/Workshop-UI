@@ -1,0 +1,131 @@
+/* 
+Article on Silent Classes in SASS : https://csswizardry.com/2014/01/extending-silent-classes-in-sass/
+*/
+// uncomment when for dev mode so the file can compile
+//@import "../dev/_dev";
+%sws-tooltip {
+    position: relative;
+    display: inline-block;
+    border-bottom: 1px dashed transparent;
+    & [sws-tooltip--text], & .sws-tooltip--text {
+        width: 125px;
+        max-width: 200px;
+        display: block;
+        position: absolute;
+        padding: 8px;
+        font-size: 12px;
+        text-align: center;
+        border-radius: 2px;
+        -moz-border-radius: 2px;
+        -webkit-border-radius: 2px;
+        z-index: 10 !important;
+        -webkit-transform: scale(0);
+        -ms-transform: scale(0);
+        transform: scale(0);
+        transition: all 0.25s ease;
+        & img {
+            vertical-align: middle;
+        }
+    }
+    &:focus,
+    &:focus-within {
+        outline: none;
+        border-bottom: 1px dashed $color-disabled-text;
+        &>[sws-tooltip--text], &>.sws-tooltip--text {
+            -webkit-transform: scale(1);
+            -ms-transform: scale(1);
+            transform: scale(1);
+            transition: all 0.3s ease;
+        }
+    }
+    &:hover {
+        cursor: pointer;
+        &>[sws-tooltip--text], &>.sws-tooltip--text {
+            -webkit-transform: scale(1);
+            -ms-transform: scale(1);
+            transform: scale(1);
+            transition: all 0.3s ease;
+        }
+    }
+}
+
+$tooltipsides: (right, left, top, bottom);
+// Iterates through color palette and exports each color
+// ie. sws-tooltip-right, sws-tooltip-left
+// ie. sws-tooltip-right--light, sws-tooltip-left--light
+@for $i from 1 through length($tooltipsides) {
+    .sws-tooltip-#{nth($tooltipsides, $i)},
+    [sws-tooltip-#{nth($tooltipsides, $i)}],
+    {
+        @extend %sws-tooltip;
+        & [sws-tooltip--text], & .sws-tooltip--text {
+            color: $color-white;
+            background: rgba($color-black, 0.8);
+            & a {
+                color: $color-white;
+            }
+        }
+    }
+
+    .sws-tooltip-#{nth($tooltipsides, $i)}--light,
+    [sws-tooltip-#{nth($tooltipsides, $i)}--light],
+    {
+        @extend %sws-tooltip;
+        & [sws-tooltip--text], & .sws-tooltip--text {
+            color: $color-dark;
+            background: rgba($color-white, 0.8);
+            border: 1px solid rgba($color-regular, 0.8);
+            & a {
+                color: $color-dark;
+            }
+        }
+    }
+} // iterates over tooltip color styles
+
+
+[sws-tooltip-right],
+[sws-tooltip-right--light],
+.sws-tooltip-right,
+.sws-tooltip-right--light {
+    & [sws-tooltip--text], & .sws-tooltip--text {
+        top: -8px;
+        left: 110%;
+    }
+}
+
+[sws-tooltip-left],
+[sws-tooltip-left--light],
+.sws-tooltip-left,
+.sws-tooltip-left--light {
+    & [sws-tooltip--text], & .sws-tooltip--text {
+        top: -5px;
+        bottom: auto;
+        right: 110%;
+    }
+}
+
+[sws-tooltip-top],
+[sws-tooltip-top--light],
+.sws-tooltip-top,
+.sws-tooltip-top--light {
+    & [sws-tooltip--text], & .sws-tooltip--text {
+        bottom: 125%;
+        left: -14px;
+        right: 0;
+        margin: auto;
+    }
+}
+
+[sws-tooltip-bottom],
+[sws-tooltip-bottom--light],
+.sws-tooltip-bottom,
+.sws-tooltip-bottom--light {
+    & [sws-tooltip--text],  & .sws-tooltip--text {
+        top: 135%;
+        width: 125px;
+        left: 0;
+        right: 0;
+        margin-left: -60px;
+        margin: auto;
+    }
+}

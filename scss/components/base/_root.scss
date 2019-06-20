@@ -1,0 +1,65 @@
+// :ROOT VARIABLES FOR THEMING
+// set CSS4 vars out of color map
+:root {
+    @for $i from 1 through length($products) {
+        $product: nth($products, $i);
+        $color: nth($product_colors, $i);
+        --color-#{$product}: #{$color};
+    }
+
+    --primary-lighten-25: #{lighten($color-primary, 25%)};
+    --primary-lighten-15: #{lighten($color-primary, 15%)};
+    --primary-lighten-10: #{lighten($color-primary, 10%)};
+    --primary-lighten-5: #{lighten($color-primary, 5%)}; 
+    --primary-darken-5: #{darken($color-primary, 5%)}; 
+    --primary-darken-10: #{darken($color-primary, 10%)};
+    --primary-darken-15: #{darken($color-primary, 15%)};
+    --primary-darken-25: #{darken($color-primary, 25%)};
+
+
+    // --btn-primary
+    // --btn-primary-hover
+    // --btn-primary-focus
+    // --btn-primary-dark-4
+    // --btn-primary-dark-8
+
+    // button component specific
+    @for $i from 1 through length($products) {
+        $product: nth($products, $i);
+        $color: nth($product_colors, $i);
+        $color-hover: shade(nth($product_colors, $i), 12%);
+        $color-focus: shade(nth($product_colors, $i), 25%);
+        $color-dark-4: darken(nth($product_colors, $i), 4%);
+        $color-dark-8: darken(nth($product_colors, $i), 8%);
+
+        --btn-#{$product}: #{$color};
+        --btn-#{$product}-hover: #{$color-hover};
+        --btn-#{$product}-focus: #{$color-focus};
+        --btn-#{$product}-dark-4: #{$color-dark-4};
+        --btn-#{$product}-dark-8: #{$color-dark-8};
+
+    }
+}
+
+// USEFUL JAVASCRIPT TO GET THE VARIABLE:
+// https://stackoverflow.com/questions/41725725/access-css-variable-from-javascript
+//
+// Get the computed styles with getComputedStyle
+// Use getPropertyValue to get the value of the desired property
+//
+// getComputedStyle(element).getPropertyValue('--color-font-general');
+// var style = getComputedStyle(document.body);
+// console.log(style.getPropertyValue('--color-font-general'));
+
+// FUTURE REFERENCE: GENERATES THE --Root ALTERNATIVE METHOD
+// https://codepen.io/jakealbaugh/post/css4-variables-and-sass
+// exports to:
+// :root {--color-primary: #FFBB00;--color-secondary: #0969A2;}
+// sass variable map
+//$colors: ( primary: #FFBB00, secondary: #0969A2 );
+//:root {
+//    // each item in color map
+//    @each $name, $color in $colors {
+//        --color-#{$name}: $color;
+//   }
+//}
