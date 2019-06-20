@@ -1,0 +1,21 @@
+{
+  "name": "@softheon/workshop",
+  "version": "1.0.0-beta.5",
+  "description": "Softheon Workshop UI Library",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "what-you-do": "echo \"enter: npm run build-css\"",
+    "build-css": "node-sass --output-style compressed --include-path scss ./custom-theme-generator/workshop.custom.scss ./custom-theme-generator/workshop.custom.min.css"
+  },
+  "keywords": [
+    "ui",
+	"css",
+    "library"
+  ],
+  "author": "NPM sarahu",
+  "license": "MIT",
+  "devDependencies": {
+    "node-sass": "^4.11.0"
+  }
+}

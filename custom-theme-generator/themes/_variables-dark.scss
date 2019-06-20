@@ -1,0 +1,28 @@
+$theme-name: 'dark';
+
+// color palette
+$color-primary: #0079C7;
+$color-secondary: #05857A;
+$color-success: #3A9A3A;
+$color-warning: #EB9711;
+$color-danger: #d9534f;
+$color-regular: #74787F;
+$color-white: #ffffff;
+$color-black: #000000;
+$color-dark: #222222;
+$color-jet: #3d3d3d;
+$color-light: #ecf0f1;
+$color-disabled: #bdc3c7;
+$color-disabled-text: #5e5e5e;
+$color-text-shadow: #34495e;
+$color-bg: #00131f; // #172531;
+$color-card-bg: #273f54;
+$color-text: #eee;
+ 
+
+// fonts
+$font-family: 'Segoe UI', 'Noto Sans', Tahoma, Geneva, Verdana, sans-serif, sans-serif;
+// products / theme variations
+// from: https://stackoverflow.com/questions/15788112/merge-string-and-variable-to-a-variable-with-sass
+$products: primary, secondary, success, warning, danger, regular, light, dark, jet;
+$product_colors: $color-primary, $color-secondary, $color-success, $color-warning, $color-danger, $color-regular, $color-light, $color-dark, $color-jet;

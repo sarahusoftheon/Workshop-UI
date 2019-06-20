@@ -1,0 +1,33 @@
+$theme-name: 'custom-FHP'; // Marketplace Blue Theme
+
+// custom colors
+$custom-button-colors: true;
+$custom-primary: #eba510; // @main-button
+$custom-secondary: #33ac5b; // @button-3
+
+// color palette
+$color-primary: #0088ce; // @main-color
+$color-secondary: #2db8ff; // @button-2
+$color-success: #3A9A3A;
+$color-warning: #EB9711;
+$color-danger: #d9534f;
+$color-regular: #74787F;
+$color-white: #ffffff;
+$color-black: #000000;
+$color-dark: #222222;
+$color-jet: #3d3d3d;
+$color-light: #ecf0f1;
+$color-disabled: #bdc3c7;
+$color-disabled-text: #5e5e5e;
+$color-text-shadow: #34495e;
+$color-bg: #fff;
+$color-card-bg: #fff;
+$color-text: #333;
+
+
+// fonts
+$font-family: 'Segoe UI', 'Noto Sans', Tahoma, Geneva, Verdana, sans-serif, sans-serif;
+// products / theme variations
+// from: https://stackoverflow.com/questions/15788112/merge-string-and-variable-to-a-variable-with-sass
+$products: primary, secondary, success, warning, danger, regular, light, dark, jet;
+$product_colors: $color-primary, $color-secondary, $color-success, $color-warning, $color-danger, $color-regular, $color-light, $color-dark, $color-jet;
